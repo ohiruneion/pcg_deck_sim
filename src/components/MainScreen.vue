@@ -10,9 +10,9 @@
           v-model.number="card.quantity"
           min="0"
           max="4">
-        <input type="radio"  value="pokemon" v-model="card.type">ポケモン
-        <input type="radio"  value="goods" v-model="card.type">グッズ
-        <input type="radio"  value="support" v-model="card.type">サポート
+        <input type="radio" value="pokemon" v-model="card.type">ポケモン
+        <input type="radio" value="goods" v-model="card.type">グッズ
+        <input type="radio" value="support" v-model="card.type">サポート
         <input type="radio" value="stadium" v-model="card.type">スタジアム
         <input type="radio" value="energy" v-model="card.type">エネルギー
         <button
@@ -29,7 +29,19 @@
       {{'合計：' + totalQuantity + '枚'}}
     </div>
     <div>
-      {{'ポケモン：' + totalPokemon + '枚'}}
+      {{'ポケモン：' + totalTypeQuantity('pokemon') + '枚'}}
+    </div>
+    <div>
+      {{'グッズ：' + totalTypeQuantity('goods') + '枚'}}
+    </div>
+    <div>
+      {{'サポート：' + totalTypeQuantity('support') + '枚'}}
+    </div>
+    <div>
+      {{'スタジアム：' + totalTypeQuantity('stadium') + '枚'}}
+    </div>
+    <div>
+      {{'エネルギー：' + totalTypeQuantity('energy') + '枚'}}
     </div>
   </div>
 </template>
@@ -56,27 +68,6 @@ export default {
       })
 
       return sum
-    },
-    totalPokemon () {
-      var sum = 0
-
-      this.deck.forEach(function (elm) {
-        sum += elm.quantity
-      })
-
-      return sum
-    },
-    totalGoods () {
-
-    },
-    totalSupport () {
-
-    },
-    totalStadium () {
-
-    },
-    totalEnergy () {
-
     }
   },
   methods: {
@@ -88,6 +79,16 @@ export default {
     },
     deleteCard (index) {
       this.deck.splice(index, 1)
+    },
+    totalTypeQuantity (type) {
+      var sum = 0
+
+      this.deck.forEach(function (elm) {
+        if (elm.type === type)
+        sum += elm.quantity
+      })
+
+      return sum
     }
   }
 }
