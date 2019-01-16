@@ -1,26 +1,54 @@
 <template>
   <div>
-    <template v-for="(card, index) in deck">
-      <div :key="index">
-        <input
-          type="text"
-          v-model="card.name">
-        <input
-          type="number"
-          v-model.number="card.quantity"
-          min="0"
-          max="4">
-        <input type="radio" value="pokemon" v-model="card.type">ポケモン
-        <input type="radio" value="goods" v-model="card.type">グッズ
-        <input type="radio" value="support" v-model="card.type">サポート
-        <input type="radio" value="stadium" v-model="card.type">スタジアム
-        <input type="radio" value="energy" v-model="card.type">エネルギー
-        <button
-          @click="deleteCard(index)">
-          Delete
-        </button>
-      </div>
-    </template>
+    <table border="1" cellspacing="0" cellpadding="5">
+      <tr>
+        <th>名称</th>
+        <th>枚数</th>
+        <th>ポケモン</th>
+        <th>グッズ</th>
+        <th>サポート</th>
+        <th>スタジアム</th>
+        <th>エネルギー</th>
+        <th>削除</th>
+      </tr>
+      <template v-for="(card, index) in deck">
+        <tr :key="index">
+          <td>
+            <input
+              type="text"
+              v-model="card.name">
+          </td>
+          <td>
+            <input
+              type="number"
+              v-model.number="card.quantity"
+              min="0"
+              max="4">
+          </td>
+          <td>
+            <input type="radio" value="pokemon" v-model="card.type">
+          </td>
+          <td>
+            <input type="radio" value="goods" v-model="card.type">
+          </td>
+          <td>
+            <input type="radio" value="support" v-model="card.type">
+          </td>
+          <td>
+            <input type="radio" value="stadium" v-model="card.type">
+          </td>
+          <td>
+            <input type="radio" value="energy" v-model="card.type">
+          </td>
+          <td>
+            <button
+              @click="deleteCard(index)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </template>
+    </table>
     <button
       @click="addCard()">
       Add
