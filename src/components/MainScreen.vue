@@ -84,8 +84,9 @@ export default {
       var sum = 0
 
       this.deck.forEach(function (elm) {
-        if (elm.type === type)
-        sum += elm.quantity
+        if (elm.type === type) {
+          sum += elm.quantity
+        }
       })
 
       return sum
