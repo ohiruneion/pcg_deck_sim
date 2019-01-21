@@ -61,7 +61,7 @@ export default {
       this.ctx.lineWidth = 2
       this.ctx.fillStyle = '#0ff'
       this.ctx.font = '20px cursive'
-      this.ctx.fillText(this.name, 300, 180)
+      this.ctx.fillText(this.name, 300, 180/* [, maxWidth] */)
     }
   }
 }
