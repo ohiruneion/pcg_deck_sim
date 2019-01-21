@@ -1,15 +1,19 @@
 <template>
   <section class="section">
     <div class="container">
+      <div>
+        <input class="input" type="text" placeholder="名前" v-model="name">
+        <button class="button" @click="writeName()">Write</button>
+      </div>
       <div class="columns is-multiline">
         <div class="column is-3 has-text-left" v-for="store in storeList" :key="store.id">
           <label class="checkbox">
-            <input type="checkbox" @click="drawCircle(store.x, store.y)">
+            <input type="checkbox" @click="drawStamp(store.x, store.y)">
             {{store.name}}
           </label>
         </div>
       </div>
-      <canvas id="canvas" width="200" height="200" class="canvas"></canvas>
+      <canvas id="canvas" class="canvas"></canvas>
     </div>
   </section>
 </template>
@@ -17,7 +21,7 @@
 <script>
 import store from '../assets/store.json'
 import card from '../assets/card.png'
-import stamp from '../assets/mark_maru.png'
+import stamp from '../assets/stamp.png'
 
 export default {
   name: 'JiroAnalysis',
@@ -25,7 +29,8 @@ export default {
     return {
       storeList: store.storeList,
       canvas: null,
-      ctx: null
+      ctx: null,
+      name: ''
     }
   },
   mounted () {
@@ -44,13 +49,19 @@ export default {
     }
   },
   methods: {
-    drawCircle (x, y) {
+    drawStamp (x, y) {
       let that = this
       let img = new Image()
       img.src = stamp
       img.onload = function () {
         that.ctx.drawImage(img, x, y, 50, 50)
       }
+    },
+    writeName () {
+      this.ctx.lineWidth = 2
+      this.ctx.fillStyle = '#0ff'
+      this.ctx.font = '20px cursive'
+      this.ctx.fillText(this.name, 300, 180)
     }
   }
 }
