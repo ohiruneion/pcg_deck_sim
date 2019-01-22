@@ -5,10 +5,10 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            <!-- ガルパ履歴書メーカー -->
+            ガルパ履歴書メーカー
           </h1>
           <h2 class="subtitle">
-            <!-- Webで誰でも簡単にガルパの履歴書を作成できます。 -->
+            誰でも簡単にガルパの履歴書を作成できます。
           </h2>
         </div>
       </div>
@@ -52,7 +52,6 @@
 
           <div class="tile is-child is-6" style="height: 501px;">
             <canvas
-              style="width: 100%; height: 100%;"
               id="canvas">
             </canvas>
           </div>
@@ -61,47 +60,111 @@
 
         <div class="tile is-parent is-vertical">
 
-          <div class="tile is-child">
-            <div class="control">
-              <label class="radio">
-                <input type="radio" name="frame" value="1" @change="selectFrame($event)">
-                frame1
+          <div class="tile is-parent">
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="プレイヤー名" v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="ランク" v-model="info.rank">
+            </div>
+
+            <div class="tile is-child is-2">
+              <div class="control">
+                <label class="radio">
+                  <input type="radio" name="sex" value="1" v-model="info.sex">
+                  男性
+                </label>
+                <label class="radio">
+                  <input type="radio" name="sex" value="2" v-model="info.sex">
+                  女性
+                </label>
+                <label class="radio">
+                  <input type="radio" name="sex" value="3" v-model="info.sex">
+                  その他
+                </label>
+              </div>
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="バンドリ歴" v-model="info.period">
+            </div>
+
+            <div class="tile is-child is-2">
+              <label class="checkbox">
+                <input type="checkbox" v-model="info.band.po.fav">
+                Poppin'Party
               </label>
-              <label class="radio">
-                <input type="radio" name="frame" value="2" @change="selectFrame($event)">
-                frame2
+              <label class="checkbox">
+                <input type="checkbox" v-model="info.band.af.fav">
+                Afterglow
               </label>
-              <label class="radio">
-                <input type="radio" name="frame" value="3" @change="selectFrame($event)">
-                frame3
+              <label class="checkbox">
+                <input type="checkbox" v-model="info.band.pa.fav">
+                Pastel*Parets
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" v-model="info.band.ro.fav">
+                Roselia
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" v-model="info.band.he.fav">
+                ハローハッピーワールド
               </label>
             </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="Rank Poppin'Party" v-model="info.band.po.rank">
+              <input class="input" type="text" placeholder="Rank Afterglow" v-model="info.band.af.rank">
+              <input class="input" type="text" placeholder="Rank Pastel*Palets" v-model="info.band.pa.rank">
+              <input class="input" type="text" placeholder="Rank Roselia" v-model="info.band.ro.rank">
+              <input class="input" type="text" placeholder="Rank ハローハッピーワールド" v-model="info.band.he.rank">
+            </div>
+
           </div>
 
           <div class="tile is-parent">
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="推しキャラ" v-model="info.guess">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <div class="control">
+                <label class="radio">
+                  <input type="radio" name="style" value="1" v-model="info.style">
+                  親指
+                </label>
+                <label class="radio">
+                  <input type="radio" name="style" value="2" v-model="info.style">
+                  人差指
+                </label>
+                <label class="radio">
+                  <input type="radio" name="style" value="3" v-model="info.style">
+                  その他
+                </label>
+              </div>
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="速度" v-model="info.speed">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="フルコン数 HARD" v-model="info.combo.hard">
+              <input class="input" type="text" placeholder="フルコン数 EXPERT" v-model="info.combo.expert">
+              <input class="input" type="text" placeholder="フルコン数 SPECIAL" v-model="info.combo.special">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="好きな楽曲１" v-model="info.fav_song_1">
+              <input class="input" type="text" placeholder="好きな楽曲２" v-model="info.fav_song_2">
+              <input class="input" type="text" placeholder="好きな楽曲３" v-model="info.fav_song_3">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="カバー曲" v-model="info.cover_song">
             </div>
 
           </div>
@@ -109,27 +172,29 @@
           <div class="tile is-parent">
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="得意譜面" v-model="info.specialty_song">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="苦手譜面" v-model="info.weak_song">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="好きなイベスト１" v-model="info.fav_story_1">
+              <input class="input" type="text" placeholder="好きなイベスト２" v-model="info.fav_story_2">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="好きなピコ回１" v-model="info.fav_pico_1">
+              <input class="input" type="text" placeholder="好きなピコ回２" v-model="info.fav_pico_2">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
+              <input class="input" type="text" placeholder="コメント１" v-model="info.comment_1">
+              <input class="input" type="text" placeholder="コメント２" v-model="info.comment_2">
             </div>
 
             <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="name..." v-model="info.name">
             </div>
 
           </div>
@@ -169,14 +234,59 @@ export default {
       canvas: null,
       ctx: null,
       info: {
-        name: ''
+        name: '',
+        rank: '',
+        sex: '',
+        period: '',
+        band: {
+          po: {
+            fav: false,
+            rank: ''
+          },
+          af: {
+            fav: false,
+            rank: ''
+          },
+          pa: {
+            fav: false,
+            rank: ''
+          },
+          ro: {
+            fav: false,
+            rank: ''
+          },
+          he: {
+            fav: false,
+            rank: ''
+          }
+        },
+        guess: '',
+        style: '',
+        speed: '',
+        combo: {
+          hard: '',
+          expert: '',
+          special: ''
+        },
+        fav_song_1: '',
+        fav_song_2: '',
+        fav_song_3: '',
+        cover_song: '',
+        specialty_song: '',
+        weak_song: '',
+        fav_story_1: '',
+        fav_story_2: '',
+        fav_pico_1: '',
+        fav_pico_2: '',
+        comment_1: '',
+        comment_2: ''
       }
     }
   },
   mounted: function () {
     this.canvas = document.getElementById('canvas')
-    // this.canvas.width = 667
-    // this.canvas.height = 501
+    this.canvas.width = 667
+    this.canvas.height = 501
     this.ctx = this.canvas.getContext('2d')
   },
   methods: {
@@ -200,6 +310,8 @@ export default {
     cropImage () {
       this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL()
       this.drawCanvas()
+
+      this.drawFrame()
     },
     rotate () {
       this.$refs.cropper.rotate(90)
@@ -209,39 +321,104 @@ export default {
       var img = new Image()
       img.src = this.cropImg
       img.onload = function () {
-        that.ctx.drawImage(img, 0, 0, img.width, img.height)
+        that.ctx.drawImage(img, 0, 0, 667, 501)
       }
     },
     drawFrame (type) {
       let that = this
       let img = new Image()
 
-      switch (type) {
+      img.src = Frame1
+
+      img.onload = function () {
+        that.ctx.drawImage(img, 0, 0, 667, 501)
+      }
+    },
+    drawInfo () {
+      this.ctx.lineWidth = 2
+      this.ctx.fillStyle = '#ff0000'
+      this.ctx.font = '20px cursive'
+
+      this.ctx.fillText(this.info.name, 80, 42, 100)
+      this.ctx.fillText(this.info.rank, 80, 80, 100)
+
+      switch (this.info.sex) {
         case '1':
-          img.src = Frame1
+          this.ctx.fillText('〇', 82, 115)
           break
         case '2':
-          // img.src = Frame2
+          this.ctx.fillText('〇', 109, 115)
           break
         case '3':
-          // img.src = Frame3
+          this.ctx.fillText('〇', 140, 115)
           break
         default:
           break
       }
 
-      img.onload = function () {
-        that.ctx.drawImage(img, 0, 0, img.width, img.height)
+      this.ctx.fillText(this.info.period, 80, 151, 100)
+
+      if (this.info.band.po.fav) {
+        this.ctx.fillText('〇', 23, 215)
       }
-    },
-    selectFrame (e) {
-      this.drawFrame(e.target.value)
-    },
-    drawInfo () {
-      this.ctx.lineWidth = 2
-      this.ctx.fillStyle = '#0ff'
-      this.ctx.font = '20px cursive'
-      this.ctx.fillText(this.info.name, 50, 65/* [, maxWidth] */)
+      if (this.info.band.af.fav) {
+        this.ctx.fillText('〇', 58, 215)
+      }
+      if (this.info.band.pa.fav) {
+        this.ctx.fillText('〇', 94, 215)
+      }
+      if (this.info.band.ro.fav) {
+        this.ctx.fillText('〇', 123, 215)
+      }
+      if (this.info.band.he.fav) {
+        this.ctx.fillText('〇', 156, 215)
+      }
+
+      this.ctx.fillText(this.info.band.po.rank, 22, 235)
+      this.ctx.fillText(this.info.band.af.rank, 58, 235)
+      this.ctx.fillText(this.info.band.pa.rank, 93, 235)
+      this.ctx.fillText(this.info.band.ro.rank, 122, 235)
+      this.ctx.fillText(this.info.band.he.rank, 155, 235)
+
+      this.ctx.fillText(this.info.guess, 30, 290, 130)
+
+      switch (this.info.style) {
+        case '1':
+          this.ctx.fillText('〇', 83, 350)
+          break
+        case '2':
+          this.ctx.fillText('〇', 115, 350)
+          break
+        case '3':
+          this.ctx.fillText('〇', 150, 350)
+          break
+        default:
+          break
+      }
+
+      this.ctx.fillText(this.info.speed, 80, 385)
+
+      this.ctx.fillText(this.info.combo.hard, 20, 475)
+      this.ctx.fillText(this.info.combo.expert, 80, 475)
+      this.ctx.fillText(this.info.combo.special, 140, 475)
+
+      this.ctx.fillText(this.info.fav_song_1, 490, 75, 150)
+      this.ctx.fillText(this.info.fav_song_2, 490, 105, 150)
+      this.ctx.fillText(this.info.fav_song_3, 490, 135, 150)
+
+      this.ctx.fillText(this.info.cover_song, 490, 200, 150)
+
+      this.ctx.fillText(this.info.specialty_song, 480, 290, 75)
+      this.ctx.fillText(this.info.weak_song, 570, 290, 75)
+
+      this.ctx.fillText(this.info.fav_story_1, 480, 350, 75)
+      this.ctx.fillText(this.info.fav_story_2, 480, 380, 75)
+
+      this.ctx.fillText(this.info.fav_pico_1, 570, 350, 75)
+      this.ctx.fillText(this.info.fav_pico_2, 570, 380, 75)
+
+      this.ctx.fillText(this.info.comment_1, 480, 440, 150)
+      this.ctx.fillText(this.info.comment_2, 480, 470, 150)
     },
     downloadResume () {
       let link = document.createElement('a')
