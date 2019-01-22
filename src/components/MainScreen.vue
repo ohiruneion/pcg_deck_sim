@@ -12,6 +12,12 @@
         Jiro
       </router-link>
     </div>
+    <div>
+      <router-link
+        :to="{ name: 'Garupa' }">
+        Garupa
+      </router-link>
+    </div>
   </div>
 </template>
 

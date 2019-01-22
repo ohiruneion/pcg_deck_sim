@@ -16,6 +16,7 @@
   "dependencies": {
     "bulma": "^0.7.2",
     "vue": "^2.5.2",
+    "vue-cropperjs": "^3.0.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
