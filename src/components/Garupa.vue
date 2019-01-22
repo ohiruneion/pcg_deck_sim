@@ -5,10 +5,10 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            ガルパ履歴書メーカー
+            <!-- ガルパ履歴書メーカー -->
           </h1>
           <h2 class="subtitle">
-            Webで誰でも簡単にガルパの履歴書を作成できます。
+            <!-- Webで誰でも簡単にガルパの履歴書を作成できます。 -->
           </h2>
         </div>
       </div>
@@ -18,38 +18,43 @@
       <div class="tile is-ancestor is-vertical">
 
         <div class="tile is-parent">
+          <div>
+            <input type="file" name="image" accept="image/*"
+              style="font-size: 1.2em; padding: 10px 0;"
+              @change="setImage" />
+          </div>
+          <div>
+            <button class="button is-primary" @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
+            <button class="button is-primary" @click="rotate" v-if="imgSrc != ''">Rotate</button>
+          </div>
+        </div>
 
-          <div class="tile is-child">
-            <div style="width: 667px; height:501px; border: 1px solid gray; display: inline-block;">
-              <vue-cropper
-                ref='cropper'
-                :guides="true"
-                :view-mode="2"
-                drag-mode="crop"
-                :auto-crop-area="0.5"
-                :min-container-width="250"
-                :min-container-height="180"
-                :background="true"
-                :rotatable="true"
-                :src="imgSrc"
-                alt="Source Image"
-                :img-style="{ 'width': '667px', 'height': '501px' }"
-                :aspectRatio="667/501">
-              </vue-cropper>
-            </div>
-            <div>
-              <input type="file" name="image" accept="image/*"
-                style="font-size: 1.2em; padding: 10px 0;"
-                @change="setImage" />
-            </div>
-            <div>
-              <button class="button is-primary" @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
-              <button class="button is-primary" @click="rotate" v-if="imgSrc != ''">Rotate</button>
-            </div>
+        <div class="tile is-parent">
+
+          <div class="tile is-child is-6" style="height:501px;">
+            <vue-cropper
+              style="width: 100%; max-width: 667px; height:100%; max-height:501px; border: 1px solid gray;"
+              ref='cropper'
+              :guides="true"
+              :view-mode="2"
+              drag-mode="crop"
+              :auto-crop-area="0.5"
+              :min-container-width="250"
+              :min-container-height="180"
+              :background="true"
+              :rotatable="true"
+              :src="imgSrc"
+              alt="Source Image"
+              :img-style="{ 'width': '100%', 'height': '100%' }"
+              :aspectRatio="667/501">
+            </vue-cropper>
           </div>
 
-          <div class="is-child">
-            <canvas id="canvas"></canvas>
+          <div class="tile is-child is-6" style="height: 501px;">
+            <canvas
+              style="width: 100%; height: 100%;"
+              id="canvas">
+            </canvas>
           </div>
 
         </div>
@@ -129,8 +134,16 @@
 
           </div>
 
-          <div class="tile is-child">
-            <button class="button is-primary" @click="drawInfo()">Draw</button>
+          <div class="tile is-parent">
+
+            <div class="tile is-child">
+              <button class="button is-primary" @click="drawInfo()">Draw</button>
+            </div>
+
+            <div class="tile is-child">
+              <button class="button is-primary" @click="downloadResume()">Download</button>
+            </div>
+
           </div>
 
         </div>
@@ -162,8 +175,8 @@ export default {
   },
   mounted: function () {
     this.canvas = document.getElementById('canvas')
-    this.canvas.width = 667
-    this.canvas.height = 501
+    // this.canvas.width = 667
+    // this.canvas.height = 501
     this.ctx = this.canvas.getContext('2d')
   },
   methods: {
@@ -196,7 +209,7 @@ export default {
       var img = new Image()
       img.src = this.cropImg
       img.onload = function () {
-        that.ctx.drawImage(img, 0, 0, 667, 501)
+        that.ctx.drawImage(img, 0, 0, img.width, img.height)
       }
     },
     drawFrame (type) {
@@ -218,7 +231,7 @@ export default {
       }
 
       img.onload = function () {
-        that.ctx.drawImage(img, 0, 0, 667, 501)
+        that.ctx.drawImage(img, 0, 0, img.width, img.height)
       }
     },
     selectFrame (e) {
@@ -229,6 +242,12 @@ export default {
       this.ctx.fillStyle = '#0ff'
       this.ctx.font = '20px cursive'
       this.ctx.fillText(this.info.name, 50, 65/* [, maxWidth] */)
+    },
+    downloadResume () {
+      let link = document.createElement('a')
+      link.href = this.canvas.toDataURL('image/png')
+      link.download = 'garupa_resume.png'
+      link.click()
     }
   }
 }
