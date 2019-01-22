@@ -5,10 +5,10 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            Title<!-- ガルパ履歴書メーカー -->
+            ガルパ履歴書メーカー
           </h1>
           <h2 class="subtitle">
-            Subtitle<!-- Webで簡単にガルパの履歴書を作成できます。 -->
+            Webで誰でも簡単にガルパの履歴書を作成できます。
           </h2>
         </div>
       </div>
