@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <section class="hero is-dark">
       <div class="hero-body">
         <div class="container">
@@ -12,57 +13,131 @@
         </div>
       </div>
     </section>
+
     <section class="section">
-      <div>
-        <input type="file" name="image" accept="image/*"
-          style="font-size: 1.2em; padding: 10px 0;"
-          @change="setImage" />
-      </div>
-      <div style="width: 667px; height:501px; border: 1px solid gray; display: inline-block;">
-        <vue-cropper
-          ref='cropper'
-          :guides="true"
-          :view-mode="2"
-          drag-mode="crop"
-          :auto-crop-area="0.5"
-          :min-container-width="250"
-          :min-container-height="180"
-          :background="true"
-          :rotatable="true"
-          :src="imgSrc"
-          alt="Source Image"
-          :img-style="{ 'width': '667px', 'height': '501px' }"
-          :aspectRatio="667/501">
-        </vue-cropper>
-      </div>
-      <div>
-        <button @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
-        <button @click="rotate" v-if="imgSrc != ''">Rotate</button>
+      <div class="tile is-ancestor is-vertical">
+
+        <div class="tile is-parent">
+
+          <div class="tile is-child">
+            <div style="width: 667px; height:501px; border: 1px solid gray; display: inline-block;">
+              <vue-cropper
+                ref='cropper'
+                :guides="true"
+                :view-mode="2"
+                drag-mode="crop"
+                :auto-crop-area="0.5"
+                :min-container-width="250"
+                :min-container-height="180"
+                :background="true"
+                :rotatable="true"
+                :src="imgSrc"
+                alt="Source Image"
+                :img-style="{ 'width': '667px', 'height': '501px' }"
+                :aspectRatio="667/501">
+              </vue-cropper>
+            </div>
+            <div>
+              <input type="file" name="image" accept="image/*"
+                style="font-size: 1.2em; padding: 10px 0;"
+                @change="setImage" />
+            </div>
+            <div>
+              <button class="button is-primary" @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
+              <button class="button is-primary" @click="rotate" v-if="imgSrc != ''">Rotate</button>
+            </div>
+          </div>
+
+          <div class="is-child">
+            <canvas id="canvas"></canvas>
+          </div>
+
+        </div>
+
+        <div class="tile is-parent is-vertical">
+
+          <div class="tile is-child">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="frame" value="1" @change="selectFrame($event)">
+                frame1
+              </label>
+              <label class="radio">
+                <input type="radio" name="frame" value="2" @change="selectFrame($event)">
+                frame2
+              </label>
+              <label class="radio">
+                <input type="radio" name="frame" value="3" @change="selectFrame($event)">
+                frame3
+              </label>
+            </div>
+          </div>
+
+          <div class="tile is-parent">
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+          </div>
+
+          <div class="tile is-parent">
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+            <div class="tile is-child is-2">
+              <input class="input" type="text" placeholder="name..." v-model="info.name">
+            </div>
+
+          </div>
+
+          <div class="tile is-child">
+            <button class="button is-primary" @click="drawInfo()">Draw</button>
+          </div>
+
+        </div>
+
       </div>
     </section>
-    <section class="section">
-      <canvas id="canvas"></canvas>
-    </section>
-    <section class="section">
-      <div class="control">
-        <label class="radio">
-          <input type="radio" name="frame" value="1" @change="selectFrame($event)">
-          frame1
-        </label>
-        <label class="radio">
-          <input type="radio" name="frame" value="2" @change="selectFrame($event)">
-          frame2
-        </label>
-        <label class="radio">
-          <input type="radio" name="frame" value="3" @change="selectFrame($event)">
-          frame3
-        </label>
-      </div>
-      <div>
-        <input class="input" type="text" placeholder="名前" v-model="info.name">
-        <button class="button" @click="drawInfo()">書込み</button>
-      </div>
-    </section>
+
   </div>
 </template>
 
