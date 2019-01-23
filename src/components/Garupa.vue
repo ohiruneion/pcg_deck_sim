@@ -18,12 +18,10 @@
       <div class="tile is-ancestor is-vertical">
 
         <div class="tile is-parent">
-          <div>
+          <div class="tile is-child">
             <input type="file" name="image" accept="image/*"
               style="font-size: 1.2em; padding: 10px 0;"
               @change="setImage" />
-          </div>
-          <div>
             <button class="button is-primary" @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
             <button class="button is-primary" @click="rotate" v-if="imgSrc != ''">Rotate</button>
           </div>
@@ -64,13 +62,7 @@
 
             <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="プレイヤー名" v-model="info.name">
-            </div>
-
-            <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="ランク" v-model="info.rank">
-            </div>
-
-            <div class="tile is-child is-2">
               <div class="control">
                 <label class="radio">
                   <input type="radio" name="sex" value="1" v-model="info.sex">
@@ -85,9 +77,6 @@
                   その他
                 </label>
               </div>
-            </div>
-
-            <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="バンドリ歴" v-model="info.period">
             </div>
 
@@ -122,10 +111,6 @@
               <input class="input" type="text" placeholder="Rank ハローハッピーワールド" v-model="info.band.he.rank">
             </div>
 
-          </div>
-
-          <div class="tile is-parent">
-
             <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="推しキャラ" v-model="info.guess">
             </div>
@@ -145,13 +130,7 @@
                   その他
                 </label>
               </div>
-            </div>
-
-            <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="速度" v-model="info.speed">
-            </div>
-
-            <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="フルコン数 HARD" v-model="info.combo.hard">
               <input class="input" type="text" placeholder="フルコン数 EXPERT" v-model="info.combo.expert">
               <input class="input" type="text" placeholder="フルコン数 SPECIAL" v-model="info.combo.special">
@@ -161,9 +140,6 @@
               <input class="input" type="text" placeholder="好きな楽曲１" v-model="info.fav_song_1">
               <input class="input" type="text" placeholder="好きな楽曲２" v-model="info.fav_song_2">
               <input class="input" type="text" placeholder="好きな楽曲３" v-model="info.fav_song_3">
-            </div>
-
-            <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="カバー曲" v-model="info.cover_song">
             </div>
 
@@ -173,9 +149,6 @@
 
             <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="得意譜面" v-model="info.specialty_song">
-            </div>
-
-            <div class="tile is-child is-2">
               <input class="input" type="text" placeholder="苦手譜面" v-model="info.weak_song">
             </div>
 
@@ -213,8 +186,21 @@
 
         </div>
 
+        <div class="tile is-parent">
+          <img :src="outputImg">
+        </div>
+
       </div>
     </section>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          © 2019 ガルパ履歴書メーカー<br>
+          developed by <a href="https://twitter.com/ion_ohirune" target="_blank">@ion_ohirune</a>
+        </p>
+      </div>
+    </footer>
 
   </div>
 </template>
@@ -233,6 +219,7 @@ export default {
       cropImg: '',
       canvas: null,
       ctx: null,
+      outputImg: '',
       info: {
         name: '',
         rank: '',
@@ -425,6 +412,9 @@ export default {
       link.href = this.canvas.toDataURL('image/png')
       link.download = 'garupa_resume.png'
       link.click()
+
+      // モバイル用
+      this.outputImg = this.canvas.toDataURL('newImg')
     }
   }
 }
