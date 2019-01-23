@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <!-- header -->
     <section class="hero is-dark">
       <div class="hero-body">
         <div class="container">
@@ -14,6 +14,7 @@
       </div>
     </section>
 
+    <!-- body -->
     <section class="section">
       <div class="tile is-ancestor is-vertical">
 
@@ -29,6 +30,7 @@
 
         <div class="tile is-parent">
 
+          <!-- 画像切り抜き -->
           <div class="tile is-child is-6" style="height:501px;">
             <vue-cropper
               style="width: 100%; max-width: 667px; height:100%; max-height:501px; border: 1px solid gray;"
@@ -48,6 +50,7 @@
             </vue-cropper>
           </div>
 
+          <!-- キャンバス -->
           <div class="tile is-child is-6" style="height: 501px;">
             <canvas
               id="canvas">
@@ -56,6 +59,7 @@
 
         </div>
 
+        <!-- 入力項目 -->
         <div class="tile is-parent is-vertical">
 
           <div class="tile is-parent">
@@ -172,12 +176,24 @@
 
           </div>
 
+          <!-- 設定 -->
           <div class="tile is-parent">
 
+            <!-- 文字色変更 -->
+            <div class="tile is-child">
+              <input class="input" type="text" placeholder="文字色（デフォルトは黒） カラーコードを入力する。 例）#ff0000" v-model="info.fontColor">
+            </div>
+
+          </div>
+
+          <div class="tile is-parent">
+
+            <!-- 入力項目を履歴書に描画するボタン -->
             <div class="tile is-child">
               <button class="button is-primary" @click="drawInfo()">Draw</button>
             </div>
 
+            <!-- キャンバスを画像化してダウンロードするボタン -->
             <div class="tile is-child">
               <button class="button is-primary" @click="downloadResume()">Download</button>
             </div>
@@ -186,6 +202,7 @@
 
         </div>
 
+        <!-- キャンバスを画像化したもの（モバイル用） -->
         <div class="tile is-parent">
           <img :src="outputImg">
         </div>
@@ -193,6 +210,7 @@
       </div>
     </section>
 
+    <!-- footer -->
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
@@ -220,6 +238,7 @@ export default {
       canvas: null,
       ctx: null,
       outputImg: '',
+      fontColor: '',
       info: {
         name: '',
         rank: '',
@@ -296,20 +315,22 @@ export default {
     },
     cropImage () {
       this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL()
-      this.drawCanvas()
 
-      this.drawFrame()
+      this.drawCanvas()
+        .then(this.drawFrame())
     },
     rotate () {
       this.$refs.cropper.rotate(90)
     },
     drawCanvas () {
-      var that = this
-      var img = new Image()
-      img.src = this.cropImg
-      img.onload = function () {
-        that.ctx.drawImage(img, 0, 0, 667, 501)
-      }
+      return new Promise((resolve, reject) => {
+        var that = this
+        var img = new Image()
+        img.src = this.cropImg
+        img.onload = function () {
+          that.ctx.drawImage(img, 0, 0, 667, 501)
+        }
+      })
     },
     drawFrame (type) {
       let that = this
@@ -323,8 +344,8 @@ export default {
     },
     drawInfo () {
       this.ctx.lineWidth = 2
-      this.ctx.fillStyle = '#ff0000'
-      this.ctx.font = '20px cursive'
+      this.ctx.fillStyle = this.info.fontColor // 文字色
+      this.ctx.font = '20px Meiryo'
 
       this.ctx.fillText(this.info.name, 80, 42, 100)
       this.ctx.fillText(this.info.rank, 80, 80, 100)
