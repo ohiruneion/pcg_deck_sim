@@ -180,7 +180,7 @@
           <div class="tile is-parent">
 
             <!-- 文字色変更 -->
-            <div class="tile is-child">
+            <div class="tile is-child is-4">
               <input class="input" type="text" placeholder="文字色（デフォルトは黒） カラーコードを入力する。 例）#ff0000" v-model="info.fontColor">
             </div>
 
