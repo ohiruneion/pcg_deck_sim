@@ -13,223 +13,191 @@
         </div>
       </div>
     </section>
-
     <!-- body -->
     <section class="section">
-      <div class="tile is-ancestor is-vertical">
-
-        <div class="tile is-parent">
-          <div class="tile is-child">
-            <input type="file" name="image" accept="image/*"
-              style="font-size: 1.2em; padding: 10px 0;"
-              @change="setImage" />
-            <button class="button is-primary" @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
-            <button class="button is-primary" @click="rotate" v-if="imgSrc != ''">Rotate</button>
-          </div>
-        </div>
-
-        <div class="tile is-parent">
-
-          <!-- 画像切り抜き -->
-          <div class="tile is-child is-6" style="height:501px;">
-            <vue-cropper
-              style="width: 100%; max-width: 667px; height:100%; max-height:501px; border: 1px solid gray;"
-              ref='cropper'
-              :guides="true"
-              :view-mode="2"
-              drag-mode="crop"
-              :auto-crop-area="0.5"
-              :min-container-width="250"
-              :min-container-height="180"
-              :background="true"
-              :rotatable="true"
-              :src="imgSrc"
-              alt="Source Image"
-              :img-style="{ 'width': '100%', 'height': '100%' }"
-              :aspectRatio="667/501">
-            </vue-cropper>
-          </div>
-
-          <!-- キャンバス -->
-          <div class="tile is-child is-6" style="height: 501px;">
-            <canvas
-              id="canvas">
-            </canvas>
-          </div>
-
-        </div>
-
-        <!-- 入力項目 -->
-        <div class="tile is-parent is-vertical">
-
+      <div class="container">
+        <div class="tile is-ancestor is-vertical">
           <div class="tile is-parent">
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="プレイヤー名" v-model="info.name">
-              <input class="input" type="text" placeholder="ランク" v-model="info.rank">
-              <div class="control">
-                <label class="radio">
-                  <input type="radio" name="sex" value="1" v-model="info.sex">
-                  男性
-                </label>
-                <label class="radio">
-                  <input type="radio" name="sex" value="2" v-model="info.sex">
-                  女性
-                </label>
-                <label class="radio">
-                  <input type="radio" name="sex" value="3" v-model="info.sex">
-                  その他
-                </label>
-              </div>
-              <input class="input" type="text" placeholder="バンドリ歴" v-model="info.period">
-            </div>
-
-            <div class="tile is-child is-2">
-              <label class="checkbox">
-                <input type="checkbox" v-model="info.band.po.fav">
-                Poppin'Party
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" v-model="info.band.af.fav">
-                Afterglow
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" v-model="info.band.pa.fav">
-                Pastel*Parets
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" v-model="info.band.ro.fav">
-                Roselia
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" v-model="info.band.he.fav">
-                ハローハッピーワールド
-              </label>
-            </div>
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="Rank Poppin'Party" v-model="info.band.po.rank">
-              <input class="input" type="text" placeholder="Rank Afterglow" v-model="info.band.af.rank">
-              <input class="input" type="text" placeholder="Rank Pastel*Palets" v-model="info.band.pa.rank">
-              <input class="input" type="text" placeholder="Rank Roselia" v-model="info.band.ro.rank">
-              <input class="input" type="text" placeholder="Rank ハローハッピーワールド" v-model="info.band.he.rank">
-            </div>
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="推しキャラ" v-model="info.guess">
-            </div>
-
-            <div class="tile is-child is-2">
-              <div class="control">
-                <label class="radio">
-                  <input type="radio" name="style" value="1" v-model="info.style">
-                  親指
-                </label>
-                <label class="radio">
-                  <input type="radio" name="style" value="2" v-model="info.style">
-                  人差指
-                </label>
-                <label class="radio">
-                  <input type="radio" name="style" value="3" v-model="info.style">
-                  その他
-                </label>
-              </div>
-              <input class="input" type="text" placeholder="速度" v-model="info.speed">
-              <input class="input" type="text" placeholder="フルコン数 HARD" v-model="info.combo.hard">
-              <input class="input" type="text" placeholder="フルコン数 EXPERT" v-model="info.combo.expert">
-              <input class="input" type="text" placeholder="フルコン数 SPECIAL" v-model="info.combo.special">
-            </div>
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="好きな楽曲１" v-model="info.fav_song_1">
-              <input class="input" type="text" placeholder="好きな楽曲２" v-model="info.fav_song_2">
-              <input class="input" type="text" placeholder="好きな楽曲３" v-model="info.fav_song_3">
-              <input class="input" type="text" placeholder="カバー曲" v-model="info.cover_song">
-            </div>
-
-          </div>
-
-          <div class="tile is-parent">
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="得意譜面" v-model="info.specialty_song">
-              <input class="input" type="text" placeholder="苦手譜面" v-model="info.weak_song">
-            </div>
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="好きなイベスト１" v-model="info.fav_story_1">
-              <input class="input" type="text" placeholder="好きなイベスト２" v-model="info.fav_story_2">
-            </div>
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="好きなピコ回１" v-model="info.fav_pico_1">
-              <input class="input" type="text" placeholder="好きなピコ回２" v-model="info.fav_pico_2">
-            </div>
-
-            <div class="tile is-child is-2">
-              <input class="input" type="text" placeholder="コメント１" v-model="info.comment_1">
-              <input class="input" type="text" placeholder="コメント２" v-model="info.comment_2">
-            </div>
-
-            <div class="tile is-child is-2">
-            </div>
-
-          </div>
-
-          <!-- 設定 -->
-          <div class="tile is-parent">
-
-            <!-- 文字色変更 -->
-            <div class="tile is-child is-4">
-              <input class="input" type="text" placeholder="文字色（デフォルトは黒） カラーコードを入力する。 例）#ff0000" v-model="info.fontColor">
-            </div>
-
-          </div>
-
-          <div class="tile is-parent">
-
-            <!-- 入力項目を履歴書に描画するボタン -->
             <div class="tile is-child">
-              <button class="button is-primary" @click="drawInfo()">Draw</button>
+              <input type="file" name="image" accept="image/*"
+                style="font-size: 1.2em; padding: 10px 0;"
+                @change="setImage" />
+              <button class="button is-primary" @click="cropImage" v-if="imgSrc != ''" style="margin-right: 40px;">Crop</button>
+              <button class="button is-primary" @click="rotate" v-if="imgSrc != ''">Rotate</button>
             </div>
-
-            <!-- キャンバスを画像化してダウンロードするボタン -->
-            <div class="tile is-child">
-              <button class="button is-primary" @click="downloadResume()">Download</button>
-            </div>
-
           </div>
-
+          <div class="tile is-parent">
+            <!-- 画像切り抜き -->
+            <div class="tile is-child is-6" style="height:501px;">
+              <vue-cropper
+                style="width: 100%; max-width: 667px; height:100%; max-height:501px; border: 1px solid gray;"
+                ref='cropper'
+                :guides="true"
+                :view-mode="2"
+                drag-mode="crop"
+                :auto-crop-area="0.5"
+                :min-container-width="250"
+                :min-container-height="180"
+                :background="true"
+                :rotatable="true"
+                :src="imgSrc"
+                alt="Source Image"
+                :img-style="{ 'width': '100%', 'height': '100%' }"
+                :aspectRatio="667/501">
+              </vue-cropper>
+            </div>
+            <!-- キャンバス -->
+            <div class="tile is-child is-6" style="height: 501px;">
+              <canvas
+                id="canvas">
+              </canvas>
+            </div>
+          </div>
+          <!-- 入力項目 -->
+          <div class="tile is-parent is-vertical">
+            <div class="tile is-parent">
+              <div class="tile is-child is-2 has-text-left">
+                <input-text :label="'プレイヤー名'" v-model="info.name"></input-text>
+                <input-text :label="'ランク'" v-model="info.rank"></input-text>
+                <radio-gender v-model="info.gender"></radio-gender>
+                <input-text :label="'バンドリ歴'" v-model="info.period"></input-text>
+                <div class="field">
+                  <label class="label">推しバンド</label>
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="info.band.po.fav">
+                      Poppin'Party
+                    </label>
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="info.band.af.fav">
+                      Afterglow
+                    </label>
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="info.band.pa.fav">
+                      Pastel*Parets
+                    </label>
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="info.band.ro.fav">
+                      Roselia
+                    </label>
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="info.band.he.fav">
+                      ハローハッピーワールド
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="tile is-child is-2">
+              </div>
+              <div class="tile is-child is-2">
+                <input-text :label="'Rank Poppin Party'" v-model="info.band.po.rank"></input-text>
+                <input-text :label="'Rank Afterglow'" v-model="info.band.af.rank"></input-text>
+                <input-text :label="'Rank Pastel*Palets'" v-model="info.band.pa.rank"></input-text>
+                <input-text :label="'Rank Roselia'" v-model="info.band.ro.rank"></input-text>
+                <input-text :label="'Rank ハローハッピーワールド'" v-model="info.band.he.rank"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+                <input-text :label="'推しキャラ'" v-model="info.guess"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" name="style" value="1" v-model="info.style">
+                    親指
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="style" value="2" v-model="info.style">
+                    人差指
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="style" value="3" v-model="info.style">
+                    その他
+                  </label>
+                </div>
+                <input-text :label="'速度'" v-model="info.speed"></input-text>
+                <input-text :label="'フルコン数 HARD'" v-model="info.combo.hard"></input-text>
+                <input-text :label="'フルコン数 EXPERT'" v-model="info.combo.expert"></input-text>
+                <input-text :label="'フルコン数 SPECIAL'" v-model="info.combo.special"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+                <input-text :label="'好きな楽曲１'" v-model="info.fav_song_1"></input-text>
+                <input-text :label="'好きな楽曲２'" v-model="info.fav_song_2"></input-text>
+                <input-text :label="'好きな楽曲３'" v-model="info.fav_song_3"></input-text>
+                <input-text :label="'カバー曲'" v-model="info.cover_song"></input-text>
+              </div>
+            </div>
+            <hr>
+            <div class="tile is-parent">
+              <div class="tile is-child is-2">
+                <input-text :label="'得意譜面'" v-model="info.specialty_song"></input-text>
+                <input-text :label="'苦手譜面'" v-model="info.weak_song"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+                <input-text :label="'好きなイベスト１'" v-model="info.fav_story_1"></input-text>
+                <input-text :label="'好きなイベスト２'" v-model="info.fav_story_2"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+                <input-text :label="'好きなピコ回１'" v-model="info.fav_pico_1"></input-text>
+                <input-text :label="'好きなピコ回２'" v-model="info.fav_pico_2"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+                <input-text :label="'コメント１'" v-model="info.comment_1"></input-text>
+                <input-text :label="'コメント２'" v-model="info.comment_2"></input-text>
+              </div>
+              <div class="tile is-child is-2">
+              </div>
+            </div>
+            <hr>
+            <!-- 設定 -->
+            <div class="tile is-parent">
+              <!-- 文字色変更 -->
+              <div class="tile is-child is-1">
+                <input-color :label="'文字色'" v-model="info.fontColor"></input-color>
+              </div>
+            </div>
+            <div class="tile is-parent">
+              <!-- 入力項目を履歴書に描画するボタン -->
+              <div class="tile is-child">
+                <button class="button is-primary" @click="drawInfo()">Draw</button>
+              </div>
+              <!-- キャンバスを画像化してダウンロードするボタン -->
+              <div class="tile is-child">
+                <button class="button is-primary" @click="downloadResume()">Download</button>
+              </div>
+            </div>
+          </div>
+          <!-- キャンバスを画像化したもの（モバイル用） -->
+          <div class="tile is-parent">
+            <img :src="outputImg">
+          </div>
         </div>
-
-        <!-- キャンバスを画像化したもの（モバイル用） -->
-        <div class="tile is-parent">
-          <img :src="outputImg">
-        </div>
-
       </div>
     </section>
-
     <!-- footer -->
     <footer class="footer">
-      <div class="content has-text-centered">
+      <div class="container">
         <p>
           © 2019 ガルパ履歴書メーカー<br>
           developed by <a href="https://twitter.com/ion_ohirune" target="_blank">@ion_ohirune</a>
         </p>
       </div>
     </footer>
-
   </div>
 </template>
 
 <script>
 import VueCropper from 'vue-cropperjs'
 import Frame1 from '../assets/frame1.png'
+import InputText from './InputText'
+import InputColor from './InputColor'
+import RadioGender from './RadioGender'
 
 export default {
   components: {
-    VueCropper
+    VueCropper,
+    InputText,
+    InputColor,
+    RadioGender
   },
   data () {
     return {
@@ -242,7 +210,7 @@ export default {
       info: {
         name: '',
         rank: '',
-        sex: '',
+        gender: '',
         period: '',
         band: {
           po: {
@@ -350,7 +318,7 @@ export default {
       this.ctx.fillText(this.info.name, 80, 42, 100)
       this.ctx.fillText(this.info.rank, 80, 80, 100)
 
-      switch (this.info.sex) {
+      switch (this.info.gender) {
         case '1':
           this.ctx.fillText('〇', 82, 115)
           break
